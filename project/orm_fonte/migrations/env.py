@@ -1,21 +1,19 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
+from sqlalchemy import engine_from_config, pool
 
-from project.settings import Settings
 from project.orm_fonte.models import db_fonte_registry
+from project.settings import Settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 config.set_main_option(
     "sqlalchemy.url",
-    f'postgresql://{Settings().POSTGRES_FONTE_USER}:'
-    f'{Settings().POSTGRES_FONTE_PASSWORD}@localhost:'
-    f'5432/{Settings().POSTGRES_FONTE_DB}'
+    f"postgresql://{Settings().POSTGRES_FONTE_USER}:"
+    f"{Settings().POSTGRES_FONTE_PASSWORD}@localhost:"
+    f"5432/{Settings().POSTGRES_FONTE_DB}",
 )
 
 # Interpret the config file for Python logging.

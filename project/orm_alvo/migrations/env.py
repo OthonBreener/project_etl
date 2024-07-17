@@ -1,21 +1,19 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
+from sqlalchemy import engine_from_config, pool
 
-from project.settings import Settings
 from project.orm_alvo.models import db_alvo_registry
+from project.settings import Settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 config.set_main_option(
     "sqlalchemy.url",
-    f'postgresql://{Settings().POSTGRES_ALVO_USER}:'
-    f'{Settings().POSTGRES_ALVO_PASSWORD}@localhost:'
-    f'5433/{Settings().POSTGRES_ALVO_DB}'
+    f"postgresql://{Settings().POSTGRES_ALVO_USER}:"
+    f"{Settings().POSTGRES_ALVO_PASSWORD}@localhost:"
+    f"5433/{Settings().POSTGRES_ALVO_DB}",
 )
 
 # Interpret the config file for Python logging.
