@@ -1,0 +1,51 @@
+from typing import Iterator
+from sqlalchemy import create_engine, ForeignKey, func
+from datetime import datetime
+
+from sqlalchemy.orm import Mapped, mapped_column, relationship, Session, registry
+
+from project.settings import Settings
+
+
+db_alvo_registry = registry()
+
+engine_alvo = create_engine(
+    f'postgresql://{Settings().POSTGRES_ALVO_USER}:'
+    f'{Settings().POSTGRES_ALVO_PASSWORD}@localhost:'
+    f'5433/{Settings().POSTGRES_ALVO_DB}'
+)
+
+def get_session_alvo() -> Iterator[Session]:
+    with Session(engine_alvo) as session:
+        yield session
+
+
+@db_alvo_registry.mapped_as_dataclass
+class Signal:
+    __tablename__ = 'signal'
+
+    id: Mapped[int] = mapped_column(primary_key=True, init=False)
+    name: Mapped[str]
+
+    # Relacionamento com a tabela `data`
+    data = relationship('Data', back_populates='signal')
+
+    created_at: Mapped[datetime] = mapped_column(
+        server_default=func.now(), init=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        onupdate=func.now(), server_default=func.now(), init=False
+    )
+
+
+@db_alvo_registry.mapped_as_dataclass
+class Data:
+    __tablename__ = 'data'
+
+    timestamp: Mapped[datetime]
+    value: Mapped[float]
+
+    signal_id: Mapped[int] = mapped_column(
+        ForeignKey('signal.id'), primary_key=True
+    )
+    signal = relationship('Signal', back_populates='data')
