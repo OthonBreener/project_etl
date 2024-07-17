@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  postgres_fonte:
+    image: postgres:latest
+    container_name: postgres_fonte
+    environment:
+      POSTGRES_USER: ${POSTGRES_FONTE_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_FONTE_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_FONTE_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_fonte_data:/var/lib/postgresql/data
+    env_file: '.env'
+    command: ["postgres", "-c", "listen_addresses=0.0.0.0", "-c", "log_statement=all", "-c", "max_connections=300"]
+
+  postgres_alvo:
+    image: postgres:latest
+    container_name: postgres_alvo
+    environment:
+      POSTGRES_USER: ${POSTGRES_ALVO_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_ALVO_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_ALVO_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_alvo_data:/var/lib/postgresql/data
+    env_file: '.env'
+
+volumes:
+  postgres_fonte_data:
+  postgres_alvo_data:
