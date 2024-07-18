@@ -34,7 +34,7 @@ class Signal:
     name: Mapped[str]
 
     # Relacionamento com a tabela `data`
-    data = relationship("Data", back_populates="signal")
+    data: Mapped['Data'] = relationship("Data", back_populates="signal", init=False)
 
     created_at: Mapped[datetime] = mapped_column(
         server_default=func.now(), init=False
@@ -54,4 +54,11 @@ class Data:
     signal_id: Mapped[int] = mapped_column(
         ForeignKey("signal.id"), primary_key=True
     )
-    signal = relationship("Signal", back_populates="data")
+    signal: Mapped[Signal] = relationship("Signal", back_populates="data", init=False)
+
+    created_at: Mapped[datetime] = mapped_column(
+        server_default=func.now(), init=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        onupdate=func.now(), server_default=func.now(), init=False
+    )

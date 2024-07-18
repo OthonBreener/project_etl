@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Iterator
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func
 from sqlalchemy.orm import (
     Mapped,
     Session,
@@ -34,3 +34,10 @@ class Data:
     wind_speed: Mapped[float]
     power: Mapped[float]
     ambient_temperature: Mapped[float]
+
+    created_at: Mapped[datetime] = mapped_column(
+        server_default=func.now(), init=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        onupdate=func.now(), server_default=func.now(), init=False
+    )
