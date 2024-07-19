@@ -26,9 +26,15 @@ poetry install
 poetry shell
 ```
 
-3. Execute o seguinte comando para criar os bancos de dados:
+3. Execute o seguinte comando para criar os containers dos bancos de dados:
 ```bash
 task init_db
+```
+
+4. Com os containers criados, rode os seguintes comandos para criar as tabelas:
+```bash
+task create_db_fonte
+task create_db_alvo
 ```
 
 4. Agora crie os dados fakes no banco de dados alvo:
