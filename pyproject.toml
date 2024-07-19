@@ -39,8 +39,8 @@ format = 'ruff check . --fix && ruff format .'
 run = 'fastapi dev project/api.py'
 test = 'pytest -s -x --cov=project -vv'
 post_test = 'coverage html'
-init_db = 'docker compose up -d'
-down_db = 'docker compose down'
+init_db = 'docker compose up -d && cd project/orm_fonte && alembic upgrade head'
+down_db = 'docker compose down --remove-orphans --volumes'
 
 [build-system]
 requires = ["poetry-core"]
