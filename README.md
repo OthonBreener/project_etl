@@ -13,4 +13,29 @@
 - pytest: test runner
 - poetry: gerenciador de dependências
 
-Para criar o banco de dados: docker exec -it postgres_fonte psql -U user1 -d postgres -c "CREATE DATABASE postgres_fonte;"
+## Como executar o programa
+
+1. Instale as dependências do projeto:
+```bash
+poetry env use 3.11.2
+poetry install
+```
+
+2. Ative o ambiente virtual:
+```bash
+poetry shell
+```
+
+3. Execute o seguinte comando para criar os bancos de dados:
+```bash
+task init_db
+```
+
+4. Agora crie os dados fakes no banco de dados alvo:
+```bash
+python -i project/generate_datas.py
+
+# dentro do terminal python
+
+generate_datas()
+```
