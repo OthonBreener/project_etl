@@ -2,12 +2,7 @@ from datetime import datetime
 from typing import Iterator
 
 from sqlalchemy import create_engine, func
-from sqlalchemy.orm import (
-    Mapped,
-    Session,
-    mapped_column,
-    registry,
-)
+from sqlalchemy.orm import Mapped, Session, mapped_column, registry
 
 from project.settings import Settings
 

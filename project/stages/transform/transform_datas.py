@@ -8,7 +8,7 @@ class TransformDatas:
     def transform(self):
         data_frame = pd.DataFrame(self.datas)
 
-        data_frame.set_index('timestamp', inplace=True)
+        data_frame.set_index("timestamp", inplace=True)
 
         data_frame["timestamp"] = pd.to_datetime(data_frame["timestamp"])
 

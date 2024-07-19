@@ -1,13 +1,11 @@
-from project.orm_fonte.models import engine_fonte
 from datetime import datetime
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 
+from project.orm_fonte.models import engine_fonte
 
-interval = (
-    datetime(2024, 1, 1),
-    datetime(2024, 1, 10)
-)
+interval = (datetime(2024, 1, 1), datetime(2024, 1, 10))
 
 
 def generate_datas():
@@ -18,7 +16,9 @@ def generate_datas():
             "timestamp": interval_datas,
             "wind_speed": np.random.uniform(3, 25, len(interval_datas)),
             "power": np.random.uniform(0, 1000, len(interval_datas)),
-            "ambient_temperature": np.random.uniform(-50, 100, len(interval_datas)),
+            "ambient_temperature": np.random.uniform(
+                -50, 100, len(interval_datas)
+            ),
         }
     )
 

@@ -1,5 +1,6 @@
-from httpx import Client
 from datetime import datetime
+
+from httpx import Client
 
 
 class ExtractDatasFonte:
