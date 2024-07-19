@@ -30,7 +30,7 @@ class Data:
     __tablename__ = "data"
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
-    timestamp: Mapped[datetime]
+    timestamp: Mapped[datetime] = mapped_column(index=True)
     wind_speed: Mapped[float]
     power: Mapped[float]
     ambient_temperature: Mapped[float]
