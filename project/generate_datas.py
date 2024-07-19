@@ -22,4 +22,4 @@ def generate_datas():
         }
     )
 
-    data_frame.to_sql("data", engine_fonte, if_exists="replace", index=False)
+    data_frame.to_sql("data", engine_fonte, if_exists="append", index=False)
