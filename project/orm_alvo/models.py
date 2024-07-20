@@ -31,10 +31,10 @@ class Signal:
     __tablename__ = "signal"
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(index=True)
 
     # Relacionamento com a tabela `data`
-    data: Mapped["Data"] = relationship(
+    data: Mapped[list["Data"]] = relationship(
         "Data", back_populates="signal", init=False
     )
 
@@ -50,11 +50,15 @@ class Signal:
 class Data:
     __tablename__ = "data"
 
+    id: Mapped[int] = mapped_column(primary_key=True, init=False)
     timestamp: Mapped[datetime]
-    value: Mapped[float]
+    mean: Mapped[float]
+    min: Mapped[float]
+    max: Mapped[float]
+    std: Mapped[float]
 
     signal_id: Mapped[int] = mapped_column(
-        ForeignKey("signal.id"), primary_key=True
+        ForeignKey("signal.id")
     )
     signal: Mapped[Signal] = relationship(
         "Signal", back_populates="data", init=False
