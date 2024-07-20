@@ -6,7 +6,10 @@ import pandas as pd
 from project.orm_fonte.models import engine_fonte
 
 
-def generate_datas(interval: tuple[datetime, datetime]):
+def generate_datas(
+    interval: tuple[datetime, datetime],
+    engine=engine_fonte,
+):
     interval_datas = pd.date_range(interval[0], interval[1], freq="1min")
 
     data_frame = pd.DataFrame(
@@ -20,4 +23,4 @@ def generate_datas(interval: tuple[datetime, datetime]):
         }
     )
 
-    data_frame.to_sql("data", engine_fonte, if_exists="append", index=False)
+    data_frame.to_sql("data", engine, if_exists="append", index=False)
