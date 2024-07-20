@@ -1,6 +1,7 @@
 from datetime import datetime
+from http import HTTPStatus
 
-from fastapi import Depends, FastAPI, Query
+from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlalchemy import and_, select, text
 from sqlalchemy.orm import Session
 
@@ -59,6 +60,11 @@ def get_data_by_options(
 
     result = [dict(zip(column_names, data)) for data in datas.fetchall()]
 
+    if not result:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail="Datas not found"
+        )
+
     return result
 
 
@@ -74,6 +80,10 @@ def get_data_by_date(
             )
         )
     ).all()
+    if not datas:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail="Datas not found"
+        )
 
     return datas
 
@@ -87,6 +97,10 @@ def get_signal_by_name(
     session: Session = Depends(get_session_alvo),
 ):
     signal = session.scalar(select(Signal).where(Signal.name == name.value))
+    if not signal:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail="Signal not found"
+        )
 
     return signal
 
@@ -112,5 +126,9 @@ def get_signal_by_name_and_date(
         )
         .where(Signal.name == name.value)
     )
+    if not signal:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail="Signal not found"
+        )
 
     return signal
