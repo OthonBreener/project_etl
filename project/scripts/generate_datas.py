@@ -5,10 +5,8 @@ import pandas as pd
 
 from project.orm_fonte.models import engine_fonte
 
-interval = (datetime(2024, 1, 1), datetime(2024, 1, 10))
 
-
-def generate_datas():
+def generate_datas(interval: tuple[datetime, datetime]):
     interval_datas = pd.date_range(interval[0], interval[1], freq="1min")
 
     data_frame = pd.DataFrame(
