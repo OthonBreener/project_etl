@@ -2,10 +2,12 @@
 Pipeline para transferir dados do banco de dados fonte
 para o alvo.
 """
+
 from datetime import datetime
+
 from project.stages.extract.extract_datas_fonte import ExtractDatasFonte
-from project.stages.transform.transform_datas import TransformDatas
 from project.stages.load.load_datas import LoadDatas
+from project.stages.transform.transform_datas import TransformDatas
 
 
 class Pipeline:

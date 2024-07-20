@@ -1,4 +1,5 @@
 from datetime import datetime
+from http import HTTPStatus
 
 from httpx import Client
 
@@ -13,7 +14,7 @@ class ExtractDatasFonte:
 
             datas = Client().get(url)
 
-            assert datas.status_code == 200
+            assert datas.status_code == HTTPStatus.OK
 
             return datas.json()
 

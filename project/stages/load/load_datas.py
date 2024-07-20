@@ -2,9 +2,7 @@ import pandas as pd
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from project.orm_alvo.models import (
-    engine_alvo, Signal
-)
+from project.orm_alvo.models import Signal, engine_alvo
 
 
 class LoadDatas:
@@ -24,36 +22,34 @@ class LoadDatas:
         self, data_frame_wind_speed: pd.DataFrame
     ) -> None:
         try:
-            signal = self._get_signal_by_name('wind_speed')
+            signal = self._get_signal_by_name("wind_speed")
 
-            data_frame_wind_speed['signal_id'] = signal.id
+            data_frame_wind_speed["signal_id"] = signal.id
 
             data_frame_wind_speed.to_sql(
                 "data",
                 engine_alvo,
                 if_exists="append",
                 index=True,
-                index_label="timestamp"
+                index_label="timestamp",
             )
         except Exception as exception:
             raise self.LoadErrorSaveSignal(
                 f"Error on save dataframe wind speed: {exception}"
             ) from exception
 
-    def _save_dataframe_power(
-        self, data_frame_power: pd.DataFrame
-    ) -> None:
+    def _save_dataframe_power(self, data_frame_power: pd.DataFrame) -> None:
         try:
-            signal = self._get_signal_by_name('power')
+            signal = self._get_signal_by_name("power")
 
-            data_frame_power['signal_id'] = signal.id
+            data_frame_power["signal_id"] = signal.id
 
             data_frame_power.to_sql(
                 "data",
                 engine_alvo,
                 if_exists="append",
                 index=True,
-                index_label="timestamp"
+                index_label="timestamp",
             )
         except Exception as exception:
             raise self.LoadErrorSaveSignal(
@@ -61,7 +57,6 @@ class LoadDatas:
             ) from exception
 
     def _save_signal(self, name: str) -> Signal:
-
         try:
             with Session(engine_alvo) as session:
                 signal = Signal(name=name)
@@ -78,9 +73,7 @@ class LoadDatas:
 
     def _get_signal_by_name(self, name: str) -> Signal:
         with Session(engine_alvo) as session:
-            signal = session.scalar(
-                select(Signal).where(Signal.name == name)
-            )
+            signal = session.scalar(select(Signal).where(Signal.name == name))
 
         if not signal:
             signal = self._save_signal(name)

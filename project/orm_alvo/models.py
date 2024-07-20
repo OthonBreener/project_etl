@@ -57,9 +57,7 @@ class Data:
     max: Mapped[float]
     std: Mapped[float]
 
-    signal_id: Mapped[int] = mapped_column(
-        ForeignKey("signal.id")
-    )
+    signal_id: Mapped[int] = mapped_column(ForeignKey("signal.id"))
     signal: Mapped[Signal] = relationship(
         "Signal", back_populates="data", init=False
     )
