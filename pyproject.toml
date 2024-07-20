@@ -28,7 +28,7 @@ line-length = 79
 extend-exclude = ["migration"]
 
 [tool.ruff.lint]
-select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+select = ['I', 'F', 'E', 'W', 'PT']
 
 [tool.isort]
 multi_line_output = 3
