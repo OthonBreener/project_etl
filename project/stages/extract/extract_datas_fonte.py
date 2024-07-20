@@ -8,11 +8,14 @@ class ExtractDatasFonte:
     def __init__(self, date: datetime) -> None:
         self.date = date
 
+    def _get_client(self) -> Client:
+        return Client()
+
     def extract(self) -> list[dict[str, float | str]]:
         try:
             url = f"http://localhost:8000/date?date={self.date}"
 
-            datas = Client().get(url)
+            datas = self._get_client().get(url)
 
             assert datas.status_code == HTTPStatus.OK
 

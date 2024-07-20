@@ -9,6 +9,9 @@ class LoadDatas:
     def __init__(self, datas: pd.DataFrame) -> None:
         self.datas = datas
 
+    def _engine_alvo(self):
+        return engine_alvo
+
     def load(self) -> None:
         data_frame = self.datas
 
@@ -28,7 +31,7 @@ class LoadDatas:
 
             data_frame_wind_speed.to_sql(
                 "data",
-                engine_alvo,
+                self._engine_alvo(),
                 if_exists="append",
                 index=True,
                 index_label="timestamp",
@@ -46,7 +49,7 @@ class LoadDatas:
 
             data_frame_power.to_sql(
                 "data",
-                engine_alvo,
+                self._engine_alvo(),
                 if_exists="append",
                 index=True,
                 index_label="timestamp",
@@ -58,7 +61,7 @@ class LoadDatas:
 
     def _save_signal(self, name: str) -> Signal:
         try:
-            with Session(engine_alvo) as session:
+            with Session(self._engine_alvo()) as session:
                 signal = Signal(name=name)
                 session.add(signal)
                 session.commit()
@@ -72,7 +75,7 @@ class LoadDatas:
             ) from exception
 
     def _get_signal_by_name(self, name: str) -> Signal:
-        with Session(engine_alvo) as session:
+        with Session(self._engine_alvo()) as session:
             signal = session.scalar(select(Signal).where(Signal.name == name))
 
         if not signal:
