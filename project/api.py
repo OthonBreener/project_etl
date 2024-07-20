@@ -1,29 +1,15 @@
 from datetime import datetime
 
 from fastapi import Depends, FastAPI
-from pydantic import BaseModel
 from sqlalchemy import and_, select
 from sqlalchemy.orm import Session
 
+from project.orm_alvo.models import Data as DataAlvo
+from project.orm_alvo.models import Signal, get_session_alvo
 from project.orm_fonte.models import Data, get_session_fonte
+from project.schemas import DataSchema, Options, SignalName, SignalSchema
 
 app = FastAPI()
-
-
-class DataSchema(BaseModel):
-    timestamp: datetime
-    wind_speed: float
-    power: float
-    ambient_temperature: float
-
-
-class Options(BaseModel):
-    timestamp: int = 1
-    wind_speed: int = 1
-    power: int = 1
-    ambient_temperature: int = 1
-    skip: int = (0,)
-    limit: int = (10,)
 
 
 @app.get("/", response_model=list[DataSchema])
@@ -70,3 +56,41 @@ def get_data_by_date(
     ).all()
 
     return datas
+
+
+@app.get(
+    "/signal",
+    response_model=SignalSchema,
+)
+def get_signal_by_name(
+    name: SignalName,
+    session: Session = Depends(get_session_alvo),
+):
+    signal = session.scalar(select(Signal).where(Signal.name == name.value))
+
+    return signal
+
+
+@app.get(
+    "/signal/date",
+    response_model=SignalSchema,
+)
+def get_signal_by_name_and_date(
+    name: SignalName,
+    date: datetime,
+    session: Session = Depends(get_session_alvo),
+):
+    signal = session.scalar(
+        select(Signal)
+        .join(DataAlvo)
+        .where(
+            and_(
+                DataAlvo.timestamp >= date,
+                DataAlvo.timestamp
+                <= date.replace(hour=23, minute=59, second=59),
+            )
+        )
+        .where(Signal.name == name.value)
+    )
+
+    return signal
