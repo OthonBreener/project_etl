@@ -1,45 +1,65 @@
 from datetime import datetime
 
-from fastapi import Depends, FastAPI
-from sqlalchemy import and_, select
+from fastapi import Depends, FastAPI, Query
+from sqlalchemy import and_, select, text
 from sqlalchemy.orm import Session
 
 from project.orm_alvo.models import Data as DataAlvo
 from project.orm_alvo.models import Signal, get_session_alvo
 from project.orm_fonte.models import Data, get_session_fonte
-from project.schemas import DataSchema, Options, SignalName, SignalSchema
+from project.schemas import DataSchema, SignalName, SignalSchema
 
 app = FastAPI()
 
 
-@app.get("/", response_model=list[DataSchema])
-def get_all_data(
-    start_date: datetime,
-    end_date: datetime,
-    options: Options,
+@app.get("/")
+def get_data_by_options(
+    start_date: datetime = Query(...),
+    end_date: datetime = Query(...),
+    timestamp: bool = Query(True),
+    wind_speed: bool = Query(True),
+    power: bool = Query(True),
+    ambient_temperature: bool = Query(True),
+    limit: int = Query(100),
+    skip: int = Query(0),
     session: Session = Depends(get_session_fonte),
 ):
-    sub_query = []
-    if options.timestamp:
-        sub_query.append(Data.timestamp)
+    select_columns = []
+    if timestamp:
+        select_columns.append(Data.timestamp)
 
-    if options.wind_speed:
-        sub_query.append(Data.wind_speed)
+    if wind_speed:
+        select_columns.append(Data.wind_speed)
 
-    if options.power:
-        sub_query.append(Data.power)
+    if power:
+        select_columns.append(Data.power)
 
-    if options.ambient_temperature:
-        sub_query.append(Data.ambient_temperature)
+    if ambient_temperature:
+        select_columns.append(Data.ambient_temperature)
 
-    datas = session.scalars(
-        select(Data)
-        .where(and_(Data.timestamp >= start_date, Data.timestamp <= end_date))
-        .limit(options.limit)
-        .offset(options.skip)
-    ).all()
+    query = text(
+        """
+    SELECT {columns} FROM data
+    WHERE timestamp >= :start_date AND timestamp <= :end_date
+    LIMIT :limit OFFSET :skip
+    """.format(columns=", ".join([str(column) for column in select_columns]))
+    )
 
-    return datas
+    datas = session.execute(
+        query,
+        {
+            "start_date": start_date,
+            "end_date": end_date,
+            "limit": limit,
+            "skip": skip,
+        },
+    )
+
+    column_names = datas.keys()
+
+    result = [dict(zip(column_names, data)) for data in datas.fetchall()]
+
+    return result
 
 
 @app.get("/date", response_model=list[DataSchema])
