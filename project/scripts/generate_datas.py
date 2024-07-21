@@ -1,10 +1,9 @@
+import sys
 from datetime import datetime
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
-import sys
-from pathlib import Path
 
 # Adiciona o diretório raiz do projeto ao PYTHONPATH
 project_root = Path(__file__).resolve().parents[2]
