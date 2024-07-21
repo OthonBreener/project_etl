@@ -2,6 +2,7 @@ from datetime import datetime
 from http import HTTPStatus
 
 from httpx import Client
+
 from project.contracts import ContractExtract
 
 

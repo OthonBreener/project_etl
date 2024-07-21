@@ -2,8 +2,8 @@ import pandas as pd
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from project.orm_alvo.models import Signal, engine_alvo
 from project.contracts import ContractTransform
+from project.orm_alvo.models import Signal, engine_alvo
 
 
 class LoadDatas:
