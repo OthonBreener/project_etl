@@ -5,11 +5,11 @@ import pandas as pd
 import pytest
 from sqlalchemy import select
 
-from project.orm_alvo.models import Signal, Data
+from project.contracts import ContractTransform
+from project.orm_alvo.models import Data, Signal
 from project.stages.extract.extract_datas_fonte import ExtractDatasFonte
 from project.stages.load.load_datas import LoadDatas
 from project.stages.transform.transform_datas import TransformDatas
-from project.contracts import ContractTransform
 
 
 def test_load_datas(client, engine_alvo, session_alvo):

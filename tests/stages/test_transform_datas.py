@@ -1,14 +1,12 @@
-import pytest
 from datetime import datetime
 from unittest.mock import patch
 
+import pytest
 from pandas import DataFrame
 
+from project.contracts import ContractExtract, ContractTransform
+from project.stages.extract.extract_datas_fonte import ExtractDatasFonte
 from project.stages.transform.transform_datas import TransformDatas
-from project.stages.extract.extract_datas_fonte import (
-    ExtractDatasFonte
-)
-from project.contracts import ContractTransform, ContractExtract
 
 
 def test_transform_datas(client):

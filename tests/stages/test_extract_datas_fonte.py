@@ -1,10 +1,10 @@
-from project.stages.extract.extract_datas_fonte import (
-    ExtractDatasFonte
-)
-from project.contracts import ContractExtract
 from datetime import datetime
 from unittest.mock import patch
+
 import pytest
+
+from project.contracts import ContractExtract
+from project.stages.extract.extract_datas_fonte import ExtractDatasFonte
 
 
 def test_extract_datas_fonte(client):
