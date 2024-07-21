@@ -12,10 +12,10 @@ sqlalchemy = "^2.0.31"
 fastapi = "^0.111.1"
 pydantic-settings = "^2.3.4"
 alembic = "^1.13.2"
-psycopg2 = "^2.9.9"
 pandas = "^2.2.2"
 isort = "^5.13.2"
 loguru = "^0.7.2"
+psycopg2-binary = "^2.9.9"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
