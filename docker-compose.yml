@@ -23,10 +23,29 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_ALVO_PASSWORD}
       POSTGRES_DB: ${POSTGRES_ALVO_DB}
     ports:
-      - "5433:5432"
+      - "5433:5433"
     volumes:
       - postgres_alvo_data:/var/lib/postgresql/data
     env_file: '.env'
+    command: ["postgres", "-c", "listen_addresses=0.0.0.0", "-c", "log_statement=all", "-c", "max_connections=300", "-p", "5433"]
+
+  project_api:
+    image: project_etl:latest
+    entrypoint: ./entrypoint.sh
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres_fonte
+      - postgres_alvo
+    env_file: '.env'
+    environment:
+        - POSTGRES_ALVO_USER=${POSTGRES_ALVO_USER}
+        - POSTGRES_ALVO_PASSWORD=${POSTGRES_ALVO_PASSWORD}
+        - POSTGRES_ALVO_DB=${POSTGRES_ALVO_DB}
+        - POSTGRES_FONTE_USER=${POSTGRES_FONTE_USER}
+        - POSTGRES_FONTE_PASSWORD=${POSTGRES_FONTE_PASSWORD}
+        - POSTGRES_FONTE_DB=${POSTGRES_FONTE_DB}
 
 volumes:
   postgres_fonte_data:
