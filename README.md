@@ -1,17 +1,54 @@
 ## Dependências obrigatórias
 
-* Python 3.11.* (ou superior)
+* Python 3.11.2
 * Docker (27.0.3) e Docker Compose (v2.11.2)
 * Git
+* Poetry
+* Pyenv (Opcional)
+
 
 ## Recursos utilizados
 
 - fastapi: framework web
 - sqlalchemy: ORM (Object Relational Mapper)
+- alembic: ferramenta de migração de banco de dados
 - ruff: linter e formatador de código
 - taskipy: task runner (executor de comandos)
 - pytest: test runner
-- poetry: gerenciador de dependências
+
+## Como executar com o Docker Compose
+
+Na raiz do projeto, execute o seguinte comando:
+```bash
+docker-compose up --build
+```
+
+Esse comando vai criar os containers dos bancos de dados e da aplicação. Popular
+o banco de dados fonte com dados aleatórios, por padrão de 2024-01-01 até 2024-01-10,
+e executar o pipeline para 2024-01-01.
+
+Caso queira executar para outras datas, siga os passos:
+
+* Primeiro, execute o seguinte comando na raiz do projeto:
+```bash
+docker exec -it project_etl-project_api-1 /bin/bash
+```
+
+* Dentro do container docker, execute:
+
+```bash
+python -i project/pipeline.py
+```
+
+* Por fim, dentro do terminal interativo do python, execute:
+
+```python
+from datetime import datetime
+
+Pepiline(datetime(2024, 1, 2)).run()
+```
+
+Obs: altere a data que deseja executar o pipeline.
 
 ## Como executar o programa
 
