@@ -1,5 +1,6 @@
 FROM python:3.11-slim
 ENV POETRY_VIRTUALENVS_CREATE=false
+ENV PYTHONPATH=/app
 
 WORKDIR app/
 COPY . .
