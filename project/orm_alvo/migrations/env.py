@@ -12,7 +12,7 @@ config = context.config
 config.set_main_option(
     "sqlalchemy.url",
     f"postgresql://{Settings().POSTGRES_ALVO_USER}:"
-    f"{Settings().POSTGRES_ALVO_PASSWORD}@localhost:"
+    f"{Settings().POSTGRES_ALVO_PASSWORD}@postgres_alvo:"
     f"5433/{Settings().POSTGRES_ALVO_DB}",
 )
 
