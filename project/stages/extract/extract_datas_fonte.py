@@ -17,7 +17,7 @@ class ExtractDatasFonte:
     def extract(self) -> ContractExtract:
         try:
             logger.info("Extracting datas from fonte")
-            url = f"http://localhost:8000/date?date={self.date}"
+            url = f"http://project_api:8000/date?date={self.date}"
 
             datas = self._get_client().get(url)
             logger.info(
