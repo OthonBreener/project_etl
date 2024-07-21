@@ -1,4 +1,5 @@
 import pandas as pd
+from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -14,15 +15,21 @@ class LoadDatas:
         return engine_alvo
 
     def load(self) -> None:
+        logger.info("Loading datas")
         data_frame = self.datas
 
         try:
             data_frame_wind_speed = data_frame["wind_speed"].copy()
+            logger.info("Saving wind speed")
             self._save_dataframe_wind_speed(data_frame_wind_speed)
+            logger.info("Wind speed saved")
 
+            logger.info("Saving power")
             data_frame_power = data_frame["power"].copy()
             self._save_dataframe_power(data_frame_power)
+            logger.info("Power saved")
         except Exception as exception:
+            logger.error(f"Error on load datas: {exception}")
             raise self.LoadError(
                 f"Error on load datas: {exception}"
             ) from exception
