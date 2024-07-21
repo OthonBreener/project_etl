@@ -16,11 +16,16 @@ class LoadDatas:
     def load(self) -> None:
         data_frame = self.datas
 
-        data_frame_wind_speed = data_frame["wind_speed"].copy()
-        self._save_dataframe_wind_speed(data_frame_wind_speed)
+        try:
+            data_frame_wind_speed = data_frame["wind_speed"].copy()
+            self._save_dataframe_wind_speed(data_frame_wind_speed)
 
-        data_frame_power = data_frame["power"].copy()
-        self._save_dataframe_power(data_frame_power)
+            data_frame_power = data_frame["power"].copy()
+            self._save_dataframe_power(data_frame_power)
+        except Exception as exception:
+            raise self.LoadError(
+                f"Error on load datas: {exception}"
+            ) from exception
 
     def _save_dataframe_wind_speed(
         self, data_frame_wind_speed: pd.DataFrame
