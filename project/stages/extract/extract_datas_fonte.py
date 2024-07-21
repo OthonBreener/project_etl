@@ -19,7 +19,7 @@ class ExtractDatasFonte:
 
             datas = self._get_client().get(url)
 
-            assert datas.status_code == HTTPStatus.OK
+            assert datas.status_code == HTTPStatus.OK, "Datas not found"
 
             return ContractExtract(
                 datas=datas.json()
