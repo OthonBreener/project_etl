@@ -50,12 +50,14 @@ Pepiline(datetime(2024, 1, 2)).run()
 
 Obs: altere a data que deseja executar o pipeline.
 
-## Como executar o programa
+## Como executar os testes
 
-1. Instale as dependências do projeto:
+Para executar os testes você deve ter as dependências do projeto instaladas.
+Para isso, siga os passos:
+
+1. Defina a versão utilizada e crie a env (caso não tenho o python 3.11.2, recomendo o uso do pyenv):
 ```bash
 poetry env use 3.11.2
-poetry install
 ```
 
 2. Ative o ambiente virtual:
@@ -63,22 +65,15 @@ poetry install
 poetry shell
 ```
 
-3. Execute o seguinte comando para criar os containers dos bancos de dados:
+3. Instale as dependêcias:
 ```bash
-task init_db
+poetry install
 ```
 
-4. Com os containers criados, rode os seguintes comandos para criar as tabelas:
+4. Na raiz do projeto, execute o seguinte comando:
+
 ```bash
-task create_db_fonte
-task create_db_alvo
+task test
 ```
 
-4. Agora crie os dados fakes no banco de dados alvo:
-```bash
-python -i project/generate_datas.py
-
-# dentro do terminal python
-
-generate_datas()
-```
+Esse comando irá rodar os testes e retornar o html do coverage no final.
