@@ -1,11 +1,12 @@
 import pandas as pd
+from project.contracts import ContractExtract, ContractTransform
 
 
 class TransformDatas:
-    def __init__(self, datas: list[dict[str, float | str]]) -> None:
-        self.datas = datas
+    def __init__(self, contract_extract: ContractExtract) -> None:
+        self.datas = contract_extract.datas
 
-    def transform(self) -> pd.DataFrame:
+    def transform(self) -> ContractTransform:
         try:
             data_frame = pd.DataFrame(self.datas)
 
@@ -19,12 +20,14 @@ class TransformDatas:
                     "power": ["mean", "min", "max", "std"],
                 }
             )
+
+            return ContractTransform(
+                data_frame=aggregations
+            )
         except Exception as expection:
             raise self.TransformError(
                 f"Error on transform datas: {expection}"
             ) from expection
-
-        return aggregations
 
     class TransformError(Exception):
         pass

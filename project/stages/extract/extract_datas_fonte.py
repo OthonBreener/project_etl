@@ -2,6 +2,7 @@ from datetime import datetime
 from http import HTTPStatus
 
 from httpx import Client
+from project.contracts import ContractExtract
 
 
 class ExtractDatasFonte:
@@ -11,7 +12,7 @@ class ExtractDatasFonte:
     def _get_client(self) -> Client:
         return Client()
 
-    def extract(self) -> list[dict[str, float | str]]:
+    def extract(self) -> ContractExtract:
         try:
             url = f"http://localhost:8000/date?date={self.date}"
 
@@ -19,7 +20,9 @@ class ExtractDatasFonte:
 
             assert datas.status_code == HTTPStatus.OK
 
-            return datas.json()
+            return ContractExtract(
+                datas=datas.json()
+            )
 
         except Exception as expection:
             raise self.ExtractError(

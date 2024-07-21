@@ -3,11 +3,12 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from project.orm_alvo.models import Signal, engine_alvo
+from project.contracts import ContractTransform
 
 
 class LoadDatas:
-    def __init__(self, datas: pd.DataFrame) -> None:
-        self.datas = datas
+    def __init__(self, contract_transform: ContractTransform) -> None:
+        self.datas = contract_transform.data_frame
 
     def _engine_alvo(self):
         return engine_alvo
