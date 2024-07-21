@@ -10,7 +10,7 @@ db_fonte_registry = registry()
 
 engine_fonte = create_engine(
     f"postgresql://{Settings().POSTGRES_FONTE_USER}:"
-    f"{Settings().POSTGRES_FONTE_PASSWORD}@localhost:"
+    f"{Settings().POSTGRES_FONTE_PASSWORD}@postgres_fonte:"
     f"5432/{Settings().POSTGRES_FONTE_DB}"
 )
 

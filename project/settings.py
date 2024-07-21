@@ -15,3 +15,5 @@ class Settings(BaseSettings):
     POSTGRES_ALVO_USER: str
     POSTGRES_ALVO_PASSWORD: str
     POSTGRES_ALVO_DB: str
+    POSTGRES_HOST_ALVO: str
+    POSTGRES_HOST_FONTE: str

@@ -16,7 +16,7 @@ db_alvo_registry = registry()
 
 engine_alvo = create_engine(
     f"postgresql://{Settings().POSTGRES_ALVO_USER}:"
-    f"{Settings().POSTGRES_ALVO_PASSWORD}@localhost:"
+    f"{Settings().POSTGRES_ALVO_PASSWORD}@postgres_alvo:"
     f"5433/{Settings().POSTGRES_ALVO_DB}"
 )
 
